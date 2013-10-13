@@ -6,37 +6,37 @@ This example tries to provide a solution for the issue one has when trying to pa
 
 Take the following example. You have a suite that tests several components (i.e. component A, B, C) in a webpage:
 
-<code>
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
-  TestComponentA.class,
-  TestComponentB.class,
-  TestComponentC.class
-})
-public class Suite {
-}
-</code>
+```java
+    @RunWith(Suite.class)
+    @Suite.SuiteClasses({
+      TestComponentA.class,
+      TestComponentB.class,
+      TestComponentC.class
+    })
+    public class Suite {
+    }
+```
 
 Meanwhile, you decide to write another suite that targets another webpage. This new webpage has the same component (i.e. B) as the first webpage and you would like to reuse the same test class. You could simply do this:
 
-<code>
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
-  TestComponentB.class,
-})
-public class Suite2 {
-}
-</code>
+```java
+    @RunWith(Suite.class)
+    @Suite.SuiteClasses({
+      TestComponentB.class,
+    })
+    public class Suite2 {
+    }
+```
 
 However, lets assume the test class for component B depends on a value that changes on this new webpage:
 
-<code>
-public void testIfClickingOnButtonShowsErrors() {
-  
-  String url = // this value depends on the page were this component resides
-  open(url);
-}
-</code>
+```java
+    public void testIfClickingOnButtonShowsErrors() {
+      
+      String url = // this value depends on the page were this component resides
+      open(url);
+    }
+```
 
 Since you have no way to instantiate test classes on suites without using the empty contructor, you'll have to find a way around this.
 
@@ -64,18 +64,18 @@ It provides an useful method _withParameter_ that takes the target test class, t
 
 Returning to the example mentioned above, if you wanted to share the parameter to component B's test class, you could do the following:
 
-<code>
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
-  TestComponentB.class,
-})
-public class Suite2 {
-  @ClassRule
-  public static final MethodParameterAggregator testParameters = 
-    new MethodParameterAggregator()
-    .withParameter(TestComponentB.class, "testThatNeedsAnExternalParam", "theValue");
-}
-</code>
+```java
+    @RunWith(Suite.class)
+    @Suite.SuiteClasses({
+      TestComponentB.class,
+    })
+    public class Suite2 {
+      @ClassRule
+      public static final MethodParameterAggregator testParameters = 
+        new MethodParameterAggregator()
+        .withParameter(TestComponentB.class, "testThatNeedsAnExternalParam", "theValue");
+    }
+```
 
 
 ## Using the shared paramters
@@ -83,13 +83,13 @@ public class Suite2 {
 When writing your reusable test classes (and methods) you can now pull the methods shared by a _ParametrizedTest_ class. Just use _MethodParameterUtils_ to obtain those parameters.
 Continuing with the example mentioned above, your test method that depends on an external value could be written as follows:
 
-<code>
-public void testIfClickingOnButtonShowsErrors() {
-  
-  String url = MethodParameterUtils.getParametersFor(this.getClass(), "testIfClickingOnButtonShowsErrors"); // this value now depends on what you've injected on the parent test/suite
-  open(url);
+```java
+    public void testIfClickingOnButtonShowsErrors() {
+      
+      String url = MethodParameterUtils.getParametersFor(this.getClass(), "testIfClickingOnButtonShowsErrors"); // this value now depends on what you've injected on the parent test/suite
+      open(url);
 }
-</code>
+```
 
 ## Conclusion
 
