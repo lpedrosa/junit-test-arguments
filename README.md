@@ -38,7 +38,7 @@ public void testIfClickingOnButtonShowsErrors() {
 }
 ```
 
-Since you have no way to instantiate test classes on suites without using the empty contructor, you'll have to find a way around this.
+Since you have no way to instantiate test classes on suites without using the empty constructor, you'll have to find a way around this.
 
 ## Enter _@ClassRule_ and _ParametrizedTest_
 
