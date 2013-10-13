@@ -3,7 +3,7 @@ package com.lpedrosa.test.utils;
 import org.apache.commons.lang3.Validate;
 
 
-public final class SuiteParameterUtils {
+public final class MethodParameterUtils {
 
 	@SuppressWarnings("unchecked")
 	public static final <T> T getParametersFor(Class<?> clazz, String methodName) {

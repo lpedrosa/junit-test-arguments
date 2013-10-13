@@ -19,7 +19,7 @@ public final class MethodParameterAggregator extends ExternalResource {
 		Validate.notEmpty(methodName);
 		Validate.notNull(param);
 		
-		SuiteParameterUtils.isValidMethodOf(clazz, methodName);
+		MethodParameterUtils.isValidMethodOf(clazz, methodName);
 		
 		params.put(clazz.getName() + "." + methodName, param);
 		return this;
