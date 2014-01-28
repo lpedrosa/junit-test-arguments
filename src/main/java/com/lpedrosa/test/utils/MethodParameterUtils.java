@@ -25,4 +25,7 @@ public final class MethodParameterUtils {
 			throw new IllegalArgumentException(ex);
 		}
 	}
+	
+	// prevent instantiation
+	private MethodParameterUtils() {}
 }
